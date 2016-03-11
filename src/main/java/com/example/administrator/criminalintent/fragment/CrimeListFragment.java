@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -20,8 +19,8 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.administrator.criminalintent.Bean.Crime;
-import com.example.administrator.criminalintent.Bean.CrimeLab;
+import com.example.administrator.criminalintent.model.Crime;
+import com.example.administrator.criminalintent.model.CrimeLab;
 import com.example.administrator.criminalintent.R;
 import com.example.administrator.criminalintent.activity.CrimePagerActivity;
 

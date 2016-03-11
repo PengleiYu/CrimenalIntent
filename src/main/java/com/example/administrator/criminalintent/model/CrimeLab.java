@@ -1,13 +1,10 @@
-package com.example.administrator.criminalintent.Bean;
+package com.example.administrator.criminalintent.model;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.administrator.criminalintent.L;
+import com.example.administrator.criminalintent.utils.CriminalIntentJSONSerializer;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 

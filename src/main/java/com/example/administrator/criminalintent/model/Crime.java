@@ -1,15 +1,9 @@
-package com.example.administrator.criminalintent.Bean;
-
-import android.content.Intent;
-import android.provider.Settings;
-
-import com.example.administrator.criminalintent.L;
+package com.example.administrator.criminalintent.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -20,10 +14,12 @@ public class Crime {
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
+    private static final String JSON_PHOTO="photo";
 
     private UUID mId;
     private String mTitle;
     private Date mDate;
+    private Photo mPhoto;
     private boolean mSolved;
 
     public Crime() {
@@ -38,6 +34,9 @@ public class Crime {
         }
         mSolved = object.getBoolean(JSON_SOLVED);
         mDate = new Date(object.getLong(JSON_DATE));
+        if (object.has(JSON_PHOTO)){
+            mPhoto=new Photo(object.getJSONObject(JSON_PHOTO));
+        }
     }
 
 
@@ -69,6 +68,14 @@ public class Crime {
         mSolved = solved;
     }
 
+    public Photo getPhoto() {
+        return mPhoto;
+    }
+
+    public void setPhoto(Photo photo) {
+        mPhoto = photo;
+    }
+
     @Override
     public String toString() {
         return mTitle;
@@ -80,6 +87,8 @@ public class Crime {
         object.put(JSON_TITLE, mTitle);
         object.put(JSON_SOLVED, mSolved);
         object.put(JSON_DATE, mDate.getTime());
+        if (mPhoto!=null)
+            object.put(JSON_PHOTO,mPhoto);
         return object;
     }
 }

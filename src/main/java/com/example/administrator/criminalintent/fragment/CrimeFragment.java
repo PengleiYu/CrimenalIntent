@@ -3,13 +3,13 @@ package com.example.administrator.criminalintent.fragment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,19 +21,22 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
-import com.example.administrator.criminalintent.Bean.Crime;
-import com.example.administrator.criminalintent.Bean.CrimeLab;
+import com.example.administrator.criminalintent.model.Crime;
+import com.example.administrator.criminalintent.model.CrimeLab;
 import com.example.administrator.criminalintent.L;
 import com.example.administrator.criminalintent.R;
 import com.example.administrator.criminalintent.activity.CrimeCameraActivity;
+import com.example.administrator.criminalintent.model.Photo;
+import com.example.administrator.criminalintent.utils.PictureUtils;
 
 import java.util.Date;
 import java.util.UUID;
 
 
 public class CrimeFragment extends Fragment {
-    private static final String TAG="CrimeFragment";
+    private static final String TAG = "CrimeFragment";
     public static final String EXTRA_CRIME_ID = "com.example.administrator.criminalintent.crime_id";
     private static final String DIALOG_DATE = "date";
     private static final int REQUEST_DATE = 0;
@@ -44,6 +47,7 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
     private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -57,11 +61,8 @@ public class CrimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
         UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
-
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-
     }
 
     @Override
@@ -123,7 +124,25 @@ public class CrimeFragment extends Fragment {
                 startActivityForResult(new Intent(getActivity(), CrimeCameraActivity.class), REQUEST_PHOTO);
             }
         });
+        mPhotoView = (ImageView) view.findViewById(R.id.crime_imageView);
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        showPhoto();
+    }
+
+    private void showPhoto() {
+        Photo photo = mCrime.getPhoto();
+        BitmapDrawable b = null;
+        if (photo != null) {
+            String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
+            b= PictureUtils.getScaledDrawable(getActivity(),path);
+        }
+        mPhotoView.setImageDrawable(b);
     }
 
     @Override
@@ -158,10 +177,13 @@ public class CrimeFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
             updateDate();
-        }else if (requestCode==REQUEST_PHOTO){
-            String filename=data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
-            if (filename!=null){
-                L.e(TAG,"filename: "+filename);
+        } else if (requestCode == REQUEST_PHOTO) {
+            String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
+            if (filename != null) {
+                Photo photo = new Photo(filename);
+                mCrime.setPhoto(photo);
+                showPhoto();
+                L.e(TAG, "Crime: " + mCrime.getTitle() + "has a photo");
             }
         }
 

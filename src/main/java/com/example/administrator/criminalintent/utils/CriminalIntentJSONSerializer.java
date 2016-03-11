@@ -1,6 +1,8 @@
-package com.example.administrator.criminalintent.Bean;
+package com.example.administrator.criminalintent.utils;
 
 import android.content.Context;
+
+import com.example.administrator.criminalintent.model.Crime;
 
 import org.json.JSONArray;
 import org.json.JSONException;

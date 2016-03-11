@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.example.administrator.criminalintent.Bean.Crime;
-import com.example.administrator.criminalintent.Bean.CrimeLab;
-import com.example.administrator.criminalintent.L;
+import com.example.administrator.criminalintent.model.Crime;
+import com.example.administrator.criminalintent.model.CrimeLab;
 import com.example.administrator.criminalintent.R;
 import com.example.administrator.criminalintent.fragment.CrimeFragment;
 

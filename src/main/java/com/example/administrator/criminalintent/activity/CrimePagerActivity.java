@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * Created by Administrator on 2016/3/9.
  */
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends FragmentActivity implements CrimeFragment.Callbacks{
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
 
@@ -81,5 +81,10 @@ public class CrimePagerActivity extends FragmentActivity {
     protected void onPause() {
         super.onPause();
         CrimeLab.get(this).saveCrimes();
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
     }
 }
